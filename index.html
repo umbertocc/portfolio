@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sviluppatore Web - Portfolio</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Sviluppo Web su misura</h1>
+        <p>Realizzazione siti e applicazioni web professionali</p>
+    </header>
+    <section class="about">
+        <h2>Chi sono</h2>
+        <p>Sono uno sviluppatore web con esperienza in front end, back end e campagne Google Ads. Aiuto aziende e professionisti a crescere online.</p>
+    </section>
+    <section class="skills">
+        <h2>Competenze</h2>
+        <ul>
+            <li>Realizzazione siti web responsive</li>
+            <li>Sviluppo applicazioni web</li>
+            <li>Frontend: HTML, CSS, JavaScript, <strong>Angular</strong>, <strong>React</strong></li>
+            <li>Backend: <strong>Java</strong>, <strong>Spring</strong>, PHP, Node.js, Python</li>
+            <li>Google Ads e promozione online</li>
+        </ul>
+    </section>
+    <section class="contact">
+                <h2>Contattami</h2>
+                <div id="successMsg" style="display:none; color: #188841; background: #e6f9ed; padding: 10px; border-radius: 6px; margin-bottom: 1rem;">✅ Messaggio inviato con successo! Ti contatterò presto.</div>
+                <form id="contactForm" action="https://demo-mail-993653817397.europe-west8.run.app/api/email/send" method="POST">
+                        <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
+                        <input type="text" name="nome" placeholder="Il tuo nome" required>
+                        <input type="email" name="email" placeholder="La tua email" required>
+                        <textarea name="messaggio" placeholder="Il tuo messaggio" required></textarea>
+                        <div id="loading-spinner" style="display:none;justify-content:center;align-items:center;margin-bottom:10px;">
+                                <div style="border:4px solid #f3f3f3;border-top:4px solid #188841;border-radius:50%;width:24px;height:24px;animation:spin 1s linear infinite;margin-right:8px;"></div>
+                                <span style="color:#188841;font-weight:500;">Invio in corso...</span>
+                        </div>
+                        <button type="submit">Invia</button>
+                </form>
+                <script>
+                // Spinner animation
+                const style = document.createElement('style');
+                style.innerHTML = `@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }`;
+                document.head.appendChild(style);
+                document.addEventListener('DOMContentLoaded', function(){
+                    const form = document.getElementById('contactForm');
+                    const success = document.getElementById('successMsg');
+                    if (!form) return;
+                    form.addEventListener('submit', function(e) {
+                        e.preventDefault();
+                        var spinner = document.getElementById('loading-spinner');
+                        spinner.style.display = 'flex';
+                        success.style.display = 'none';
+                        var nome = form.nome.value;
+                        var email = form.email.value;
+                        var messaggio = form.messaggio.value;
+                        var text = 'Nome: ' + nome + '\n' + 'Email: ' + email + '\n' + 'Messaggio: ' + messaggio;
+                        fetch(form.action, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/x-www-form-urlencoded',
+                                'Accept': 'application/json'
+                            },
+                            body: new URLSearchParams({
+                                to: 'info@torrepalivacanze.it',
+                                subject: 'Contatto dal portfolio',
+                                text: text
+                            })
+                        }).then(function(response) {
+                            spinner.style.display = 'none';
+                            if (response.ok) {
+                                success.style.display = 'block';
+                                success.textContent = '✅ Messaggio inviato con successo! Ti contatterò presto.';
+                                form.reset();
+                                setTimeout(() => { success.style.display = 'none'; }, 7000);
+                            } else {
+                                success.style.display = 'block';
+                                success.textContent = 'Errore nell’invio. Riprova o contattami via email.';
+                            }
+                        }).catch(function() {
+                            spinner.style.display = 'none';
+                            success.style.display = 'block';
+                            success.textContent = 'Errore nell’invio. Riprova o contattami via email.';
+                        });
+                    });
+                });
+                </script>
+    </section>
+    <footer>
+        <p>&copy; 2026 Sviluppatore Web</p>
+    </footer>
+</body>
+</html>
