@@ -19,6 +19,16 @@
     background: #1ebe57;
     transform: scale(1.08);
 }
+
+@media (max-width: 600px) {
+    .whatsapp-float {
+        width: 44px;
+        height: 44px;
+        bottom: 16px;
+        right: 16px;
+    }
+}
+
 body {
     font-family: 'Segoe UI', Arial, sans-serif;
     margin: 0;
